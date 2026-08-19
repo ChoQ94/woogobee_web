@@ -40,7 +40,7 @@ type Props = {
 const INITIAL_STATE: ActionState = {};
 
 const SWATCH =
-  "flex h-10 cursor-pointer items-center gap-2 rounded-md border border-hairline bg-canvas px-3 text-caption has-[:focus-visible]:border-primary-ink";
+  "flex h-10 cursor-pointer items-center gap-2 rounded-md border border-hairline bg-surface-card px-3 text-caption has-[:focus-visible]:border-primary-ink";
 /** `{component.expense-row-selected}` 와 같은 선택 표시 — primary 테두리 + primary-tint 바탕 */
 const SWATCH_SELECTED =
   "flex h-10 cursor-pointer items-center gap-2 rounded-md border border-primary bg-primary-tint px-3 text-caption has-[:focus-visible]:border-primary-ink";

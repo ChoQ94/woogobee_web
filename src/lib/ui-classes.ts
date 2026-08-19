@@ -18,11 +18,11 @@ export const BUTTON_PRIMARY =
 
 /** `{component.button-secondary}` — 흰 배경 + hairline 테두리. */
 export const BUTTON_SECONDARY =
-  "inline-flex h-10 items-center justify-center rounded-md border border-hairline bg-canvas px-4 text-button text-ink transition-colors hover:bg-surface-soft";
+  "inline-flex h-10 items-center justify-center rounded-md border border-hairline bg-surface-card px-4 text-button text-ink transition-colors hover:bg-surface-soft";
 
 /** `{component.button-danger}` — 흰 배경에 danger 글자·테두리. 채움 빨강은 쓰지 않는다. */
 export const BUTTON_DANGER =
-  "inline-flex h-10 items-center justify-center rounded-md border border-danger bg-canvas px-4 text-button text-danger transition-colors hover:bg-danger-tint";
+  "inline-flex h-10 items-center justify-center rounded-md border border-danger bg-surface-card px-4 text-button text-danger transition-colors hover:bg-danger-tint";
 
 /**
  * `{component.text-input}` — 높이 40px, hairline 1px.
@@ -32,11 +32,11 @@ export const BUTTON_DANGER =
  * 덧대 두께만 2px 로 보이게 한다. 퍼지는 그림자가 아니므로 "글로우 없음"에 어긋나지 않는다.
  */
 export const INPUT =
-  "h-10 w-full rounded-md border border-hairline bg-canvas px-3 focus:border-primary-ink focus:outline-1 focus:outline-primary-ink";
+  "h-10 w-full rounded-md border border-hairline bg-surface-card px-3 focus:border-primary-ink focus:outline-1 focus:outline-primary-ink";
 
 /** `{component.amount-input}` — 같은 규격 + 우측 정렬 + amount 토큰(tabular-nums 병기). */
 export const INPUT_AMOUNT =
-  "h-10 w-full rounded-md border border-hairline bg-canvas px-3 text-right text-amount tabular-nums focus:border-primary-ink focus:outline-1 focus:outline-primary-ink";
+  "h-10 w-full rounded-md border border-hairline bg-surface-card px-3 text-right text-amount tabular-nums focus:border-primary-ink focus:outline-1 focus:outline-primary-ink";
 
 /**
  * 메모용 여러 줄 입력.
@@ -45,7 +45,7 @@ export const INPUT_AMOUNT =
  * 세로 여백(py-2)을 준 것이다. 테두리·모서리·포커스는 입력과 동일하다.
  */
 export const TEXTAREA =
-  "w-full rounded-md border border-hairline bg-canvas px-3 py-2 focus:border-primary-ink focus:outline-1 focus:outline-primary-ink";
+  "w-full rounded-md border border-hairline bg-surface-card px-3 py-2 focus:border-primary-ink focus:outline-1 focus:outline-primary-ink";
 
 /** `{component.category-badge}` / `{component.yearly-badge}` 공통 골격. 색은 붙이는 쪽에서 정한다. */
 export const BADGE = "inline-flex items-center rounded-sm px-2 py-0.5 text-badge";

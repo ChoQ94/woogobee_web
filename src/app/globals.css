@@ -20,7 +20,11 @@
   --on-primary-soft: #3b2450;
 
   /* 무채색 */
-  --canvas: #ffffff;
+  /* 페이지 바닥. 순백이 아니라 아주 옅은 보라다 — 흰 카드가 그림자 없이 떠 보인다.
+   * 이보다 진하게 가면 `muted`(#64748b) 보조 텍스트가 4.5:1 아래로 떨어진다.
+   * #fbf8fd 에서 4.52:1 로 아슬아슬하게 통과한다. 더 진한 바닥을 원하면
+   * `muted` 를 함께 어둡게 해야 한다. */
+  --canvas: #fbf8fd;
   --surface-soft: #f8fafc;
   --surface-card: #ffffff;
   --hairline: #e2e8f0;

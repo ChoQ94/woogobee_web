@@ -129,15 +129,18 @@ function DayCell({
   const hiddenCount = items.length - named.length;
   const dots = items.slice(0, MAX_DOTS_IN_CELL);
 
-  // 셀 테두리는 hairline 1px 이고, 오늘만 primary 1px 로 바뀐다.
-  // **채움이 아니라 테두리다** — 연보라로 칸을 채우면 그 위 날짜·항목명 대비가
-  // 무너진다 (design.md `{components.calendar-cell-today}`).
+  // 오늘은 primary 1px 테두리 + primary-tint 채움.
+  // 채움에 primary(#c38ed5)를 쓰면 그 위 합계가 2.4:1 로 무너지지만,
+  // primary-tint(#f9edfd)는 날짜 숫자가 15.8:1 로 남는다
+  // (design.md `{components.calendar-cell-today}`).
   const border = isToday
     ? "border-primary relative z-10"
     : "border-hairline";
-  const surface = cell.inMonth
-    ? "bg-canvas text-ink"
-    : "bg-surface-soft text-subtle";
+  const surface = !cell.inMonth
+    ? "bg-surface-soft text-subtle"
+    : isToday
+      ? "bg-primary-tint text-ink"
+      : "bg-surface-card text-ink";
 
   return (
     <div
@@ -192,8 +195,18 @@ function DayCell({
       ) : null}
 
       {/* sm 이상: 칸 하단에 그날 합계. `{components.calendar-day-total}` */}
+      {/* 오늘 칸은 primary-tint 위라 muted 가 4.21:1 로 AA 에 못 미친다.
+          그 칸에서만 body(#334155, 9.15:1)로 올린다 (design.md).
+          `text-body` 는 타이포 토큰이 아니라 **색 토큰**으로 해석된다 —
+          `body` 라는 이름이 색과 타이포 양쪽에 있고 색 네임스페이스가 이긴다.
+          여기서는 색을 원하는 것이므로 의도한 동작이다. */}
       {items.length > 0 ? (
-        <span className="mt-auto hidden pt-1 text-right text-amount-sm tabular-nums text-muted sm:block">
+        <span
+          className={
+            "mt-auto hidden pt-1 text-right text-amount-sm tabular-nums sm:block " +
+            (isToday ? "text-body" : "text-muted")
+          }
+        >
           {formatAmount(dayTotal)}
         </span>
       ) : null}
@@ -284,7 +297,7 @@ export default async function CalendarPage({
 
         {/* design.md `{components.calendar-grid}` — 흰 면 + hairline 1px + 12px.
             각 칸의 음수 마진이 바깥으로 1px 삐져나오므로 overflow-hidden 으로 자른다. */}
-        <div className="mt-6 overflow-hidden rounded-lg border border-hairline bg-canvas">
+        <div className="mt-6 overflow-hidden rounded-lg border border-hairline bg-surface-card">
           <div className="grid grid-cols-7">
             {WEEKDAY_LABELS.map((label) => (
               <div

@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: NEEDS-design-system
-description: A quiet, numbers-first personal finance system built on a pure white canvas where roughly 90% of every screen is neutral slate ink and hairlines, and a single drop of light purple carries meaning. The brand purple (#c38ed5) is too light to hold white text, so a darker sibling (#6B4A8A) was derived to fill actions and links while the original stays as the atmospheric voice — today's calendar ring, selection borders, chart fills. Type runs Pretendard so Korean glyphs and Latin digits share one impression, and every amount renders in tabular-nums because fixed expenses stack vertically and misaligned digits are the fastest way to make a money screen feel untrustworthy. Boundaries are drawn with 1px hairlines rather than shadows — the system defines exactly one shadow tier, reserved for modals and dropdowns that genuinely float.
+description: A quiet, numbers-first personal finance system built on a barely-tinted lilac floor (#FBF8FD) that lets pure-white cards lift without shadows, where roughly 90% of every screen is neutral slate ink and hairlines, and a single drop of light purple carries meaning. The brand purple (#c38ed5) is too light to hold white text, so a darker sibling (#6B4A8A) was derived to fill actions and links while the original stays as the atmospheric voice — today's calendar ring, selection borders, chart fills. Type runs Pretendard so Korean glyphs and Latin digits share one impression, and every amount renders in tabular-nums because fixed expenses stack vertically and misaligned digits are the fastest way to make a money screen feel untrustworthy. Boundaries are drawn with 1px hairlines rather than shadows — the system defines exactly one shadow tier, reserved for modals and dropdowns that genuinely float.
 
 colors:
   primary: "#c38ed5"
@@ -12,7 +12,7 @@ colors:
   primary-tint: "#f9edfd"
   on-primary: "#FFFFFF"
   on-primary-soft: "#3B2450"
-  canvas: "#FFFFFF"
+  canvas: "#FBF8FD"
   surface-soft: "#F8FAFC"
   surface-card: "#FFFFFF"
   hairline: "#E2E8F0"
@@ -291,7 +291,7 @@ components:
     padding: 8px
     border: "1px solid {colors.hairline}"
   calendar-cell-today:
-    backgroundColor: "{colors.canvas}"
+    backgroundColor: "{colors.primary-tint}"
     textColor: "{colors.ink}"
     typography: "{typography.caption-strong}"
     rounded: "{rounded.none}"
@@ -382,7 +382,8 @@ components:
 
 ## 개요
 
-이 시스템은 흰 캔버스(`{colors.canvas}` — #FFFFFF) 위에 무채색 잉크로 대부분을 해결하고,
+이 시스템은 아주 옅은 보라 바닥(`{colors.canvas}` — #FBF8FD) 위에 무채색 잉크로
+대부분을 해결하고,
 보라를 한 방울만 떨어뜨린다. 화면의 90%는 `{colors.ink}` · `{colors.body}` · `{colors.muted}`
 세 단계의 글자색과 `{colors.hairline}` 한 줄이면 끝난다. 보라가 나타나는 자리는
 행동(버튼·링크), 선택 상태, 오늘 날짜, 도넛 차트뿐이다.
@@ -435,7 +436,7 @@ components:
 
 | 토큰 | 값 | 용도 |
 |---|---|---|
-| `{colors.canvas}` | `#FFFFFF` | 페이지 배경 |
+| `{colors.canvas}` | `#FBF8FD` | 페이지 바닥. 순백이 아니라 아주 옅은 보라 |
 | `{colors.surface-soft}` | `#F8FAFC` | 테이블 헤더, 빈 상태 바탕, 달력의 이번 달 밖 칸 |
 | `{colors.surface-card}` | `#FFFFFF` | 카드 면. 캔버스와 같은 흰색이고 구분은 선이 한다 |
 | `{colors.hairline}` | `#E2E8F0` | 카드 테두리, 구분선, 입력 테두리 |
@@ -718,8 +719,14 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
   (`{typography.amount-sm}`, tabular-nums)
 - 점은 6px 원, 해당 카테고리의 `-dot` 값
 
-**`calendar-cell-today`** — `{colors.primary}` 1px 테두리. **채움이 아니라 테두리**다.
-연보라로 칸을 채우면 그 위의 날짜 숫자와 항목명 대비가 무너진다.
+**`calendar-cell-today`** — `{colors.primary}` 1px 테두리 + `{colors.primary-tint}` 채움.
+
+처음에는 "채움이 아니라 테두리"로 못박았는데, 그 금지는 **`{colors.primary}`(#c38ed5)로
+칸을 채우는 것**을 두고 한 말이었다. 그 위에서는 `{colors.muted}` 합계가 2.4:1 로 무너진다.
+`{colors.primary-tint}`(#f9edfd)는 다르다 — 날짜 숫자(`{colors.ink}`)가 15.8:1 로 남는다.
+
+**단 하나 걸리는 것**: `{colors.primary-tint}` 위에서 `{colors.muted}` 는 4.21:1 로
+AA 에 못 미친다. 그래서 오늘 칸의 합계 금액만 `{colors.body}`(9.15:1)로 올린다.
 
 **`calendar-cell-outside-month`** — 앞뒤 달의 날짜. `{colors.surface-soft}` 바탕 +
 `{colors.subtle}` 글자.

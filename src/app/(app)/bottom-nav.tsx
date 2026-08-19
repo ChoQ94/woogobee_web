@@ -98,7 +98,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="주요 메뉴"
-      className="fixed inset-x-0 bottom-0 z-10 border-t border-hairline bg-canvas pb-safe-bottom"
+      className="fixed inset-x-0 bottom-0 z-10 border-t border-hairline bg-surface-card pb-safe-bottom"
     >
       <div className="mx-auto grid h-bottom-nav max-w-page grid-cols-4">
         {TABS.map(({ href, label, Icon }) => {
@@ -111,6 +111,9 @@ export function BottomNav() {
               aria-current={active ? "page" : undefined}
               className={
                 "flex flex-col items-center justify-center gap-0.5 " +
+                // 배경은 칠하지 않는다. 아이콘과 라벨 색만 바뀐다 —
+                // 아이콘이 currentColor 라 글자색 하나로 따라온다.
+                // 굵기도 함께 바뀌므로 색만으로 구분하는 게 아니다 (design.md).
                 (active
                   ? "text-caption-strong text-primary-ink"
                   : "text-caption text-muted")
