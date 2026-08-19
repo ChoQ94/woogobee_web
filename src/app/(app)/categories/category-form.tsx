@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 
-import type { ActionState } from "@/app/categories/actions";
+import type { ActionState } from "@/app/(app)/categories/actions";
 import {
   CATEGORY_COLOR_LABEL,
   CATEGORY_COLORS,

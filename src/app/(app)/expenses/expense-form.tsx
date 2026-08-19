@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 
-import type { ActionState } from "@/app/expenses/actions";
+import type { ActionState } from "@/app/(app)/expenses/actions";
 import type { Cycle } from "@/lib/format";
 import {
   BUTTON_PRIMARY,

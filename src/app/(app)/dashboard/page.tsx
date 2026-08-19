@@ -191,18 +191,13 @@ export default async function DashboardPage() {
   const isEmpty = total === 0 && items.length === 0;
 
   return (
-    <main className="min-h-dvh bg-canvas text-ink">
+    <main className="bg-canvas text-ink">
       <div className="mx-auto max-w-page px-4 py-8 sm:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-title">대시보드</h1>
-          <div className="flex items-center gap-3">
-            <Link href="/expenses" className={BUTTON_SECONDARY}>
-              고정지출 관리
-            </Link>
-            <Link href="/expenses/new" className={BUTTON_PRIMARY}>
-              지출 추가
-            </Link>
-          </div>
+          <Link href="/expenses/new" className={BUTTON_PRIMARY}>
+            지출 추가
+          </Link>
         </div>
 
         {/* design.md {component.total-summary} — 패딩 24px 20px.

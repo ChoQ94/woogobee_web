@@ -5,8 +5,8 @@ import { useState } from "react";
 import {
   deleteCategoryAction,
   updateCategoryAction,
-} from "@/app/categories/actions";
-import { CategoryForm } from "@/app/categories/category-form";
+} from "@/app/(app)/categories/actions";
+import { CategoryForm } from "@/app/(app)/categories/category-form";
 import { CATEGORY_DOT_CLASS, toCategoryColor } from "@/lib/category-colors";
 import { BUTTON_DANGER, BUTTON_SECONDARY } from "@/lib/ui-classes";
 

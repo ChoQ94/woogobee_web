@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { createExpenseAction } from "@/app/expenses/actions";
-import { ExpenseForm } from "@/app/expenses/expense-form";
+import { createExpenseAction } from "@/app/(app)/expenses/actions";
+import { ExpenseForm } from "@/app/(app)/expenses/expense-form";
 import { auth } from "@/auth";
 import { listCategories } from "@/lib/categories";
 import { CARD } from "@/lib/ui-classes";
@@ -15,7 +15,7 @@ export default async function NewExpensePage() {
   const categories = await listCategories();
 
   return (
-    <main className="min-h-dvh bg-canvas text-ink">
+    <main className="bg-canvas text-ink">
       {/* 폼 화면은 480px. 입력 한 줄이 화면 폭 전체로 늘어나면 읽는 눈이 멀리 간다 */}
       <div className="mx-auto max-w-narrow px-4 py-8 sm:px-8">
         <Link href="/expenses" className="text-caption text-muted">

@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { createCategoryAction } from "@/app/categories/actions";
-import { CategoryForm } from "@/app/categories/category-form";
-import { CategoryRow } from "@/app/categories/category-row";
+import { createCategoryAction } from "@/app/(app)/categories/actions";
+import { CategoryForm } from "@/app/(app)/categories/category-form";
+import { CategoryRow } from "@/app/(app)/categories/category-row";
 import { auth } from "@/auth";
 import { listCategories } from "@/lib/categories";
 import { CARD, EMPTY_STATE } from "@/lib/ui-classes";
@@ -16,11 +15,8 @@ export default async function CategoriesPage() {
   const categories = await listCategories();
 
   return (
-    <main className="min-h-dvh bg-canvas text-ink">
+    <main className="bg-canvas text-ink">
       <div className="mx-auto max-w-page px-4 py-8 sm:px-8">
-        <Link href="/expenses" className="text-caption text-muted">
-          ← 지출 목록
-        </Link>
         <h1 className="text-title">카테고리</h1>
         <p className="mt-2 text-muted">
           지출을 묶는 이름과 색입니다. 색은 목록 뱃지와 달력 점, 대시보드 차트에

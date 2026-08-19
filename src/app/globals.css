@@ -72,6 +72,9 @@
    * 옮긴 것이다 — 값을 바꾼 게 아니라 임의값 유틸리티를 걷어내려고 이름만 줬다. */
   --width-narrow: 480px;
   --width-page: 1120px;
+
+  /* 하단 탭 바 높이. design.md {components.bottom-nav} 의 56px. */
+  --bottom-nav-height: 56px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -134,6 +137,14 @@
 
   --container-narrow: var(--width-narrow);
   --container-page: var(--width-page);
+
+  /* 하단 바 관련 spacing 토큰.
+   * 임의값 유틸리티(pb-[calc(...)])를 쓰지 않으려고 이름을 준 것이다. */
+  --spacing-bottom-nav: var(--bottom-nav-height);
+  --spacing-safe-bottom: env(safe-area-inset-bottom);
+  --spacing-bottom-nav-safe: calc(
+    var(--bottom-nav-height) + env(safe-area-inset-bottom)
+  );
 
   /* 타이포 스케일 — design.md "타이포그래피 > 스케일" 표와 1:1 이다.
    * Tailwind v4 는 --text-{name} 에 --line-height / --letter-spacing /

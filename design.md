@@ -351,6 +351,22 @@ components:
     typography: "{typography.nav-link}"
     height: 56px
     border: "0 0 1px 0 solid {colors.hairline}"
+  bottom-nav:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.muted}"
+    typography: "{typography.caption}"
+    height: 56px
+    border: "1px 0 0 0 solid {colors.hairline}"
+  bottom-nav-item:
+    backgroundColor: transparent
+    textColor: "{colors.muted}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.none}"
+  bottom-nav-item-active:
+    backgroundColor: transparent
+    textColor: "{colors.primary-ink}"
+    typography: "{typography.caption-strong}"
+    rounded: "{rounded.none}"
   nav-link-active:
     backgroundColor: transparent
     textColor: "{colors.primary-ink}"
@@ -736,6 +752,34 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 **`top-nav`** — 높이 56px, 흰 배경, 하단 `{colors.hairline}` 1px.
 링크는 `{colors.body}`, 현재 페이지는 `{components.nav-link-active}`
 (`{colors.primary-ink}`). 밑줄이나 배경 채움은 쓰지 않는다 — 색만으로 구분한다.
+
+### 하단 내비
+
+**`bottom-nav`** — 화면 하단에 고정된 탭 바. 대시보드 · 달력 · 지출 · 카테고리
+네 곳을 한 번에 오간다. 흰 면에 위쪽 `{colors.hairline}` 1px 선만 두고 그림자는 쓰지 않는다.
+높이 56px 로 `{components.top-nav}` 과 같다 — 나중에 데스크톱용 상단 내비를 붙여도
+두 바의 리듬이 어긋나지 않는다.
+
+**왜 하단인가.** 이 앱은 폰에서 열린다. 상단 탭은 한 손으로 쓸 때 엄지가 닿지 않는다.
+네 칸이므로 320px 화면에서 한 탭이 80px 이고, 높이 56px 과 함께 터치 타겟 44px 을 넘긴다.
+
+**`bottom-nav-item`** — 아이콘(24px) 위, 라벨(`{typography.caption}`) 아래. 세로 배치.
+기본은 `{colors.muted}`.
+
+**`bottom-nav-item-active`** — 현재 화면. `{colors.primary-ink}` 글자와 아이콘,
+`{typography.caption-strong}`. **색만으로 구분하지 않는다** — 굵기도 함께 바뀐다.
+색각 이상이 있어도 현재 위치를 알 수 있어야 한다.
+
+활성 판정은 경로 접두사로 한다. `/expenses/new` 와 `/expenses/123/edit` 에서도
+"지출" 탭이 활성이어야 사용자가 자기 위치를 잃지 않는다.
+
+**아이콘**은 인라인 SVG 로 직접 그린다. 아이콘 세트를 의존성으로 들이지 않는다 —
+네 개뿐이고, `currentColor` 를 쓰면 활성 색이 자동으로 따라온다.
+
+**본문 여백** — 바가 콘텐츠를 덮으므로 페이지 아래쪽에 바 높이만큼 여백을 준다.
+`env(safe-area-inset-bottom)` 을 더해 홈 인디케이터가 있는 기기에서도 가려지지 않게 한다.
+
+**랜딩(`/`)에는 두지 않는다.** 로그인 전에는 갈 곳이 없다.
 
 ## 반응형
 

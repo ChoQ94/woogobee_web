@@ -4,8 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import {
   deleteExpenseAction,
   updateExpenseAction,
-} from "@/app/expenses/actions";
-import { ExpenseForm } from "@/app/expenses/expense-form";
+} from "@/app/(app)/expenses/actions";
+import { ExpenseForm } from "@/app/(app)/expenses/expense-form";
 import { auth } from "@/auth";
 import { listCategories } from "@/lib/categories";
 import { getExpense } from "@/lib/expenses";
@@ -31,7 +31,7 @@ export default async function EditExpensePage({
   if (!expense) notFound();
 
   return (
-    <main className="min-h-dvh bg-canvas text-ink">
+    <main className="bg-canvas text-ink">
       <div className="mx-auto max-w-narrow px-4 py-8 sm:px-8">
         <Link href="/expenses" className="text-caption text-muted">
           ← 지출 목록

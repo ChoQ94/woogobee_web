@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { endExpenseAction, resumeExpenseAction } from "@/app/expenses/actions";
+import { endExpenseAction, resumeExpenseAction } from "@/app/(app)/expenses/actions";
 import { auth } from "@/auth";
 import { CATEGORY_BADGE_CLASS, toCategoryColor } from "@/lib/category-colors";
 import { formatAmount, formatDate, formatPaymentSchedule } from "@/lib/format";
@@ -32,23 +32,13 @@ export default async function ExpensesPage({
   const expenses = await listExpenses({ includeEnded: showEnded });
 
   return (
-    <main className="min-h-dvh bg-canvas text-ink">
+    <main className="bg-canvas text-ink">
       <div className="mx-auto max-w-page px-4 py-8 sm:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <Link href="/dashboard" className="text-caption text-muted">
-              ← 대시보드
-            </Link>
-            <h1 className="text-title">고정지출</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/categories" className={BUTTON_SECONDARY}>
-              카테고리 관리
-            </Link>
-            <Link href="/expenses/new" className={BUTTON_PRIMARY}>
-              지출 추가
-            </Link>
-          </div>
+          <h1 className="text-title">고정지출</h1>
+          <Link href="/expenses/new" className={BUTTON_PRIMARY}>
+            지출 추가
+          </Link>
         </div>
 
         <div className="mt-6 flex items-center justify-between gap-3">
