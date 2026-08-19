@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth, signOut } from "@/auth";
+import { BUTTON_PRIMARY } from "@/lib/ui-classes";
 
 export default async function DashboardPage() {
   // proxy 의 쿠키 검사는 낙관적일 뿐이므로 여기서 다시 확인한다.
@@ -25,6 +27,13 @@ export default async function DashboardPage() {
         <p className="mt-6 text-muted">
           이번 달 결제 예정 금액과 달력은 다음 단계에서 붙입니다.
         </p>
+
+        {/* 대시보드가 막다른 길이 되지 않게 지출 목록으로 나가는 문을 둔다 */}
+        <div className="mt-6">
+          <Link href="/expenses" className={BUTTON_PRIMARY}>
+            고정지출 관리
+          </Link>
+        </div>
 
         <form
           className="mt-8"
