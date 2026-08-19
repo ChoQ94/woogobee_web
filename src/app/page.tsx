@@ -9,12 +9,10 @@ export default async function LandingPage() {
   if (session?.user) redirect("/dashboard");
 
   return (
-    <main className="min-h-dvh bg-white text-[#0F172A]">
-      <div className="mx-auto flex min-h-dvh max-w-[480px] flex-col justify-center px-5">
-        <h1 className="text-[40px] font-bold leading-[1.1] tracking-[-0.02em]">
-          NEEDS
-        </h1>
-        <p className="mt-3 text-[15px] leading-[1.6] text-[#64748B]">
+    <main className="min-h-dvh bg-canvas text-ink">
+      <div className="mx-auto flex min-h-dvh max-w-narrow flex-col justify-center px-5">
+        <h1 className="text-display">NEEDS</h1>
+        <p className="mt-3 text-muted">
           매달 빠져나가는 고정지출을 한 곳에 모아,
           <br />
           이번 달에 얼마가 언제 나가는지 확인합니다.
@@ -29,13 +27,13 @@ export default async function LandingPage() {
         >
           <button
             type="submit"
-            className="h-10 w-full rounded-[8px] bg-[#6B4A8A] px-4 text-[15px] font-medium leading-[1.2] text-white transition-colors hover:bg-[#9878b7]"
+            className="h-10 w-full rounded-md bg-primary-ink px-4 text-button text-on-primary transition-colors hover:bg-primary-deep"
           >
             Google 로 계속하기
           </button>
         </form>
 
-        <p className="mt-4 text-[13px] leading-[1.4] text-[#94A3B8]">
+        <p className="mt-4 text-caption text-subtle">
           구글 계정으로 로그인합니다. 별도 회원가입은 없습니다.
         </p>
       </div>

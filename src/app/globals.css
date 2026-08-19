@@ -1,26 +1,242 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+ * 1단: 원시 값
+ *
+ * design.md 프론트매터의 값을 그대로 옮긴 것이다.
+ * 다크모드를 붙일 때는 이 블록의 값만 교체한다 (design.md "다크모드" 참고).
+ * 지금은 라이트만 구현하므로 OS 테마를 감지하는 미디어 쿼리를 두지 않는다.
+ * 감지 블록만 있고 어두운 팔레트가 없으면 배경만 뒤집힌 화면이 나온다.
+ * ------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 브랜드 보라 */
+  --primary: #c38ed5;
+  --primary-light: #d7abe6;
+  --primary-mid: #b69ccf;
+  --primary-deep: #9878b7;
+  --primary-ink: #6b4a8a;
+  --primary-tint: #f9edfd;
+  --on-primary: #ffffff;
+  --on-primary-soft: #3b2450;
+
+  /* 무채색 */
+  --canvas: #ffffff;
+  --surface-soft: #f8fafc;
+  --surface-card: #ffffff;
+  --hairline: #e2e8f0;
+  --hairline-strong: #cbd5e1;
+  --ink: #0f172a;
+  --body: #334155;
+  --muted: #64748b;
+  --subtle: #94a3b8;
+
+  /* 의미색 */
+  --danger: #dc2626;
+  --danger-tint: #fef2f2;
+  --success: #059669;
+  --scrim: #0f172a;
+
+  /* 카테고리 팔레트 — 사용자는 이 8색 중에서만 고른다 */
+  --category-blue-bg: #eff6ff;
+  --category-blue-text: #1d4ed8;
+  --category-blue-dot: #3b82f6;
+  --category-indigo-bg: #eef2ff;
+  --category-indigo-text: #4338ca;
+  --category-indigo-dot: #6366f1;
+  --category-emerald-bg: #ecfdf5;
+  --category-emerald-text: #047857;
+  --category-emerald-dot: #10b981;
+  --category-amber-bg: #fffbeb;
+  --category-amber-text: #b45309;
+  --category-amber-dot: #f59e0b;
+  --category-rose-bg: #fff1f2;
+  --category-rose-text: #be123c;
+  --category-rose-dot: #f43f5e;
+  --category-cyan-bg: #ecfeff;
+  --category-cyan-text: #0e7490;
+  --category-cyan-dot: #06b6d4;
+  --category-orange-bg: #fff7ed;
+  --category-orange-text: #c2410c;
+  --category-orange-dot: #f97316;
+  --category-slate-bg: #f8fafc;
+  --category-slate-text: #475569;
+  --category-slate-dot: #64748b;
+
+  /* 폰트 스택 — design.md "타이포그래피 > 폰트" 와 동일 */
+  --sans:
+    "Pretendard Variable", Pretendard, -apple-system, system-ui, sans-serif;
+
+  /* 컨테이너 폭.
+   * page 1120px 는 design.md "레이아웃 > 컨테이너" 값이다 (대시보드·달력 공용).
+   * narrow 480px 는 지금 로그인·대시보드 화면이 쓰던 폭을 그대로 토큰으로
+   * 옮긴 것이다 — 값을 바꾼 게 아니라 임의값 유틸리티를 걷어내려고 이름만 줬다. */
+  --width-narrow: 480px;
+  --width-page: 1120px;
 }
 
+/* ---------------------------------------------------------------------------
+ * 2단: Tailwind 유틸리티로 노출
+ *
+ * `inline` 이라 생성된 유틸리티가 값을 굽지 않고 var() 참조를 그대로 들고 간다.
+ * 그래서 1단 값만 바꾸면 화면 전체가 따라온다.
+ * ------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-mid: var(--primary-mid);
+  --color-primary-deep: var(--primary-deep);
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-tint: var(--primary-tint);
+  --color-on-primary: var(--on-primary);
+  --color-on-primary-soft: var(--on-primary-soft);
+
+  --color-canvas: var(--canvas);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-card: var(--surface-card);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+
+  --color-danger: var(--danger);
+  --color-danger-tint: var(--danger-tint);
+  --color-success: var(--success);
+  --color-scrim: var(--scrim);
+
+  --color-category-blue-bg: var(--category-blue-bg);
+  --color-category-blue-text: var(--category-blue-text);
+  --color-category-blue-dot: var(--category-blue-dot);
+  --color-category-indigo-bg: var(--category-indigo-bg);
+  --color-category-indigo-text: var(--category-indigo-text);
+  --color-category-indigo-dot: var(--category-indigo-dot);
+  --color-category-emerald-bg: var(--category-emerald-bg);
+  --color-category-emerald-text: var(--category-emerald-text);
+  --color-category-emerald-dot: var(--category-emerald-dot);
+  --color-category-amber-bg: var(--category-amber-bg);
+  --color-category-amber-text: var(--category-amber-text);
+  --color-category-amber-dot: var(--category-amber-dot);
+  --color-category-rose-bg: var(--category-rose-bg);
+  --color-category-rose-text: var(--category-rose-text);
+  --color-category-rose-dot: var(--category-rose-dot);
+  --color-category-cyan-bg: var(--category-cyan-bg);
+  --color-category-cyan-text: var(--category-cyan-text);
+  --color-category-cyan-dot: var(--category-cyan-dot);
+  --color-category-orange-bg: var(--category-orange-bg);
+  --color-category-orange-text: var(--category-orange-text);
+  --color-category-orange-dot: var(--category-orange-dot);
+  --color-category-slate-bg: var(--category-slate-bg);
+  --color-category-slate-text: var(--category-slate-text);
+  --color-category-slate-dot: var(--category-slate-dot);
+
+  --font-sans: var(--sans);
+
+  --container-narrow: var(--width-narrow);
+  --container-page: var(--width-page);
+
+  /* 타이포 스케일 — design.md "타이포그래피 > 스케일" 표와 1:1 이다.
+   * Tailwind v4 는 --text-{name} 에 --line-height / --letter-spacing /
+   * --font-weight 세 가지 짝만 읽는다. tabular-nums 는 짝으로 받지 않으므로
+   * 금액에는 Tailwind 내장 `tabular-nums` 유틸리티를 함께 붙인다. */
+  --text-display: 40px;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  --text-display-sm: 28px;
+  --text-display-sm--line-height: 1.15;
+  --text-display-sm--letter-spacing: -0.01em;
+  --text-display-sm--font-weight: 700;
+
+  --text-title: 24px;
+  --text-title--line-height: 1.3;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 600;
+
+  --text-section: 18px;
+  --text-section--line-height: 1.4;
+  --text-section--letter-spacing: 0;
+  --text-section--font-weight: 600;
+
+  --text-body: 15px;
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: 0;
+  --text-body--font-weight: 400;
+
+  --text-body-strong: 15px;
+  --text-body-strong--line-height: 1.6;
+  --text-body-strong--letter-spacing: 0;
+  --text-body-strong--font-weight: 600;
+
+  --text-caption: 13px;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0;
+  --text-caption--font-weight: 400;
+
+  --text-caption-strong: 13px;
+  --text-caption-strong--line-height: 1.4;
+  --text-caption-strong--letter-spacing: 0;
+  --text-caption-strong--font-weight: 600;
+
+  --text-badge: 12px;
+  --text-badge--line-height: 1.2;
+  --text-badge--letter-spacing: 0;
+  --text-badge--font-weight: 600;
+
+  --text-amount-lg: 28px;
+  --text-amount-lg--line-height: 1.2;
+  --text-amount-lg--letter-spacing: -0.01em;
+  --text-amount-lg--font-weight: 700;
+
+  --text-amount: 15px;
+  --text-amount--line-height: 1.5;
+  --text-amount--letter-spacing: 0;
+  --text-amount--font-weight: 500;
+
+  --text-amount-sm: 13px;
+  --text-amount-sm--line-height: 1.4;
+  --text-amount-sm--letter-spacing: 0;
+  --text-amount-sm--font-weight: 400;
+
+  --text-button: 15px;
+  --text-button--line-height: 1.2;
+  --text-button--letter-spacing: 0;
+  --text-button--font-weight: 500;
+
+  --text-nav-link: 15px;
+  --text-nav-link--line-height: 1.2;
+  --text-nav-link--letter-spacing: 0;
+  --text-nav-link--font-weight: 500;
+
+  /* 모서리 — Tailwind 기본 스케일을 덮어쓰는 게 의도된 동작이다.
+   * 뱃지 sm 6px / 버튼·입력 md 8px / 카드 lg 12px / 모달 xl 16px */
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* 간격은 재정의하지 않는다. design.md 의 값(2/4/8/12/16/20/24/32/40px)이
+   * Tailwind v4 기본 4px 스케일에 전부 떨어진다 — p-5=20px, gap-3=12px. */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ---------------------------------------------------------------------------
+ * 기준선
+ *
+ * `body` 는 design.md 에서 색(`{colors.body}` #334155)이자 타이포
+ * (`{typography.body}` 15px/400/1.6)라 Tailwind 유틸리티 이름이 겹친다.
+ * 이름이 겹치면 v4 는 `text-body` 규칙을 아예 만들지 않는다 (오류도 경고도 없다).
+ * 그래서 본문 타이포는 유틸리티 대신 여기 기준선으로 깐다 — 아래 값은
+ * `{typography.body}` 와 같고, 본문 문단은 클래스 없이 그대로 상속받는다.
+ * ------------------------------------------------------------------------- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
 }
