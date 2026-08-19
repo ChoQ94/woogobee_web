@@ -380,7 +380,8 @@ components:
 `{typography.display}`(40px / 700)이고, 나머지는 15px 본문 주위에 촘촘히 모여 있다.
 금액을 담는 토큰 — `{typography.display}`, `{typography.display-sm}`,
 `{typography.amount-lg}`, `{typography.amount}`, `{typography.amount-sm}` — 은 예외 없이
-`tabular-nums` 를 켠다.
+`tabular-nums` 를 켠다. 다만 이 토큰들만으로는 적용되지 않는다 —
+"금액 표기 > 다만 토큰만으로는 적용되지 않는다" 참고.
 
 형태 언어는 절제된 둥근 모서리다. 뱃지 6px, 버튼·입력 8px, 카드 12px, 모달 16px.
 원형은 달력의 카테고리 점 하나뿐이다.
@@ -504,6 +505,9 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 | `{typography.button}` | 15px | 500 | 1.2 | 0 | 버튼 라벨 |
 | `{typography.nav-link}` | 15px | 500 | 1.2 | 0 | 상단 내비 |
 
+> `(tabular-nums)` 표시는 토큰에 선언돼 있다는 뜻이지, 클래스 하나로 적용된다는 뜻이 아니다.
+> 실제로는 `text-amount tabular-nums` 처럼 병기해야 한다 — "금액 표기" 참고.
+
 큰 글씨는 총액 한 곳에만 허용한다. `{typography.display}` 가 40px 인 이유는 그 숫자가
 사용자가 이 서비스를 여는 이유이기 때문이고, 나머지가 15px 근처에 몰려 있는 이유도
 같다. 제목이 커지면 총액이 상대적으로 작아 보인다.
@@ -523,7 +527,34 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 
 금액을 담는 타이포 토큰(`{typography.display}`, `{typography.display-sm}`,
 `{typography.amount-lg}`, `{typography.amount}`, `{typography.amount-sm}`)에는
-`fontVariantNumeric: tabular-nums` 가 이미 들어 있다. 금액에는 반드시 이 토큰 중 하나를 쓴다.
+`fontVariantNumeric: tabular-nums` 가 선언돼 있다. 금액에는 반드시 이 토큰 중 하나를 쓴다.
+
+#### 다만 토큰만으로는 적용되지 않는다
+
+**Tailwind v4 는 `--text-*` 토큰에 `font-variant-numeric` 을 실어주지 않는다.**
+짝으로 읽는 건 `--line-height` · `--letter-spacing` · `--font-weight` 세 개뿐이다.
+그래서 `text-amount` 만 붙이면 크기·굵기·행간은 오지만 자릿수 정렬은 오지 않는다.
+
+```css
+/* text-amount 가 실제로 만들어내는 것 — font-variant-numeric 이 없다 */
+.text-amount {
+  font-size: 15px;
+  line-height: var(--tw-leading, 1.5);
+  letter-spacing: var(--tw-tracking, 0);
+  font-weight: var(--tw-font-weight, 500);
+}
+```
+
+**금액에는 Tailwind 내장 `tabular-nums` 유틸리티를 항상 함께 붙인다.**
+
+```tsx
+<span className="text-amount tabular-nums">1,240,000원</span>
+<span className="text-amount-sm tabular-nums">32,000원</span>
+<p className="text-display tabular-nums">1,240,000원</p>
+```
+
+빠뜨려도 오류가 나지 않는다. 목록의 자릿수가 어긋난 화면이 그대로 나갈 뿐이다.
+금액을 렌더하는 컴포넌트를 만들 때 이 두 클래스를 한 덩어리로 묶어두면 실수를 줄일 수 있다.
 
 ### 형식
 
