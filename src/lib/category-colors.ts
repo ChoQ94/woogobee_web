@@ -70,3 +70,22 @@ export const CATEGORY_DOT_CLASS: Record<CategoryColor, string> = {
 export function toCategoryColor(value: string | null | undefined): CategoryColor {
   return CATEGORY_COLORS.includes(value as CategoryColor) ? (value as CategoryColor) : "slate";
 }
+
+/**
+ * 도넛 차트 조각용 — SVG `stroke` 로 색을 칠한다.
+ *
+ * 조각을 `<circle>` 의 `stroke-dasharray` 로 그리기 때문에 배경색(`bg-*`)은 쓸 수 없다.
+ * 여기서도 위와 같은 이유로 클래스명을 조립하지 않고 8색 전부를 리터럴로 적는다
+ * (PROJECT.md §7.9). `--color-category-*-dot` 토큰을 그대로 재사용하므로
+ * 달력 점과 도넛 조각의 색이 항상 같다.
+ */
+export const CATEGORY_STROKE_CLASS: Record<CategoryColor, string> = {
+  blue: "stroke-category-blue-dot",
+  indigo: "stroke-category-indigo-dot",
+  emerald: "stroke-category-emerald-dot",
+  amber: "stroke-category-amber-dot",
+  rose: "stroke-category-rose-dot",
+  cyan: "stroke-category-cyan-dot",
+  orange: "stroke-category-orange-dot",
+  slate: "stroke-category-slate-dot",
+};
