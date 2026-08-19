@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// Auth.js (NextAuth) 표준 모델
+// ─────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+
+  accounts   Account[]
+  sessions   Session[]
+  categories Category[]
+  expenses   Expense[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─────────────────────────────────────────────
+// 고정지출 도메인
+// ─────────────────────────────────────────────
+
+/// 결제 주기. 달력 표시와 총액 계산의 기준이 된다.
+enum Cycle {
+  MONTHLY
+  YEARLY
+}
+
+/// 사용자가 직접 만드는 카테고리. 색은 달력 뱃지와 차트에 쓰인다.
+model Category {
+  id        String @id @default(cuid())
+  userId    String
+  name      String
+  color     String // design.md 팔레트의 토큰명 (예: "blue")
+  sortOrder Int    @default(0)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses Expense[]
+
+  createdAt DateTime @default(now())
+
+  // 같은 사용자가 동일한 이름의 카테고리를 두 번 만들 수 없다
+  @@unique([userId, name])
+  @@index([userId])
+}
+
+/// 고정지출 항목 하나. 월세·보험료·구독료 등.
+model Expense {
+  id     String @id @default(cuid())
+  userId String
+
+  /// 카테고리 삭제 시 지출까지 지워지면 안 되므로 SetNull.
+  /// null 이면 "미분류"로 표시한다.
+  categoryId String?
+
+  name   String
+  /// 원 단위 정수. 부동소수점 오차를 피하기 위해 Int 를 쓴다.
+  amount Int
+  cycle  Cycle  @default(MONTHLY)
+
+  /// 결제일(1~31). 해당 월에 없는 날이면 그 달의 마지막 날로 당긴다.
+  paymentDay Int
+  /// 연납(YEARLY)일 때만 사용하는 결제 월(1~12).
+  paymentMonth Int?
+
+  startedAt DateTime  @default(now())
+  /// 해지 시점. null 이면 진행 중. 과거 기록 조회를 위해 삭제 대신 이 값을 채운다.
+  endedAt   DateTime?
+
+  memo String?
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, endedAt])
+  @@index([categoryId])
+}

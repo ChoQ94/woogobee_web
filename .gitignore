@@ -1,0 +1,35 @@
+# 의존성
+/node_modules
+/.pnp
+.pnp.*
+
+# Next.js 빌드 산출물
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# 환경변수 — DATABASE_URL, AUTH_SECRET 이 들어간다. 절대 커밋 금지
+.env*
+!.env.example
+
+# 테스트
+/coverage
+
+# 배포
+.vercel
+
+# 로그
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS · 인증서
+.DS_Store
+*.pem
+
+# getdesign.md 참조용 템플릿 — 실제 기준은 루트 design.md 하나다
+/airbnb/
+/bmw-m/
