@@ -200,12 +200,17 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
-        {/* design.md {component.total-summary} — 패딩 24px 20px.
+        {/* design.md {components.total-summary} — 패딩 24px 20px.
+            브랜드 색을 면으로 깔지 않는다. 큰 색 덩어리가 들어오면 정작 금액이 묻힌다.
             이번 달 "실제 결제액" 하나만 크게 둔다. 월 평균 부담액 같은 파생 숫자는
             넣지 않는다 (PROJECT.md §2). */}
         <section className="mt-6 rounded-lg border border-hairline bg-surface-card px-5 py-6">
           <p className="text-caption text-muted">{monthLabel}</p>
-          <p className="mt-2 text-display tabular-nums">{formatAmount(total)}</p>
+          {/* 금액은 오른쪽 정렬. 목록·달력·입력의 금액이 전부 우측 정렬이라
+              대시보드 총액만 왼쪽에 붙어 있으면 리듬이 어긋난다. */}
+          <p className="mt-2 text-right text-display tabular-nums">
+            {formatAmount(total)}
+          </p>
           <p className="mt-2 text-caption text-muted">
             {"이번 달 결제 예정 " + items.length + "건"}
             {/* 연납이 낀 달은 총액이 튄다. 왜 튀는지를 여기서 알려준다 (PROJECT.md §2). */}
