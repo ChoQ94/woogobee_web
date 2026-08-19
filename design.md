@@ -570,7 +570,7 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 자동차보험 60만원은 결제되는 달에 600,000원으로 잡히고 나머지 열한 달에는 0원이다.
 그 달만 총액이 튀는 게 정상이다.
 
-대신 목록에서 `{component.yearly-badge}` 로 `연납` 뱃지를 붙여, 왜 그 달만 큰지
+대신 목록에서 `{components.yearly-badge}` 로 `연납` 뱃지를 붙여, 왜 그 달만 큰지
 사용자가 이유를 알 수 있게 한다.
 
 ### 결제일 보정
@@ -625,7 +625,7 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 
 - **평면 (그림자 없음):** 카드, 목록, 달력, 차트, 상단 내비 — 화면의 거의 전부.
   구분은 `{colors.hairline}` 1px 선이 한다.
-- **떠 있는 요소:** `{component.modal}` 과 `{component.dropdown}` 만 그림자를 쓴다.
+- **떠 있는 요소:** `{components.modal}` 과 `{components.dropdown}` 만 그림자를 쓴다.
   이 둘은 실제로 다른 레이어에 있고, 사용자도 그렇게 인식해야 한다.
   `box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.06)`
 - **스크림:** `{colors.scrim}` 을 50% 불투명도로 깐다. 모달 뒷배경 전용.
@@ -639,7 +639,7 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 ### 카드
 
 **`card`** — 흰 배경(`{colors.surface-card}`) + `{colors.hairline}` 1px 테두리 +
-`{rounded.lg}` 12px + 안쪽 여백 20px. 그림자 없음. 카드 제목은 `{component.card-header}`
+`{rounded.lg}` 12px + 안쪽 여백 20px. 그림자 없음. 카드 제목은 `{components.card-header}`
 (`{typography.section}`)로 얹고 아래로 12px 띄운다.
 
 **`total-summary`** — 대시보드 최상단. 이번 달 실제 결제액 하나만 `{typography.display}`
@@ -697,8 +697,8 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 
 - 날짜 숫자는 **좌상단**, `{typography.caption}`
 - 결제 항목은 **카테고리 점(dot) + 이름**, 최대 3개까지. 넘치면
-  `{component.calendar-overflow-label}` 로 `+2건` 표기
-- 셀 하단에 **그날 합계 금액**, `{component.calendar-day-total}`
+  `{components.calendar-overflow-label}` 로 `+2건` 표기
+- 셀 하단에 **그날 합계 금액**, `{components.calendar-day-total}`
   (`{typography.amount-sm}`, tabular-nums)
 - 점은 6px 원, 해당 카테고리의 `-dot` 값
 
@@ -734,7 +734,7 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 ### 상단 내비
 
 **`top-nav`** — 높이 56px, 흰 배경, 하단 `{colors.hairline}` 1px.
-링크는 `{colors.body}`, 현재 페이지는 `{component.nav-link-active}`
+링크는 `{colors.body}`, 현재 페이지는 `{components.nav-link-active}`
 (`{colors.primary-ink}`). 밑줄이나 배경 채움은 쓰지 않는다 — 색만으로 구분한다.
 
 ## 반응형
@@ -761,7 +761,7 @@ Tailwind v4 를 쓰므로 토큰은 `src/app/globals.css` 의 `@theme` 블록에
 
 - **다크모드 실제 값:** 구조(CSS 변수)만 잡아두었고 어두운 팔레트의 실제 hex 는 정하지 않았다.
   특히 `{colors.primary}` 계열은 어두운 배경에서 대비가 반전되므로 재계산이 필요하다.
-- **hover 상태 세부:** `{component.button-primary-hover}` 와 드롭다운 항목 hover 외에는
+- **hover 상태 세부:** `{components.button-primary-hover}` 와 드롭다운 항목 hover 외에는
   정의하지 않았다. 목록 행·카드의 hover 는 구현하면서 정한다.
 - **로딩 / 스켈레톤:** Server Component 로 데이터를 가져오므로 로딩 UI 가 필요한 지점이
   어디인지부터 확인해야 한다.
