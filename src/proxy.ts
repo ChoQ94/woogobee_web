@@ -45,6 +45,7 @@ export const config = {
   // 서버 렌더와 DB 조회까지 갔다가 튕기므로 그만큼 느려진다.
   matcher: [
     "/dashboard/:path*",
+    "/calendar/:path*",
     "/expenses/:path*",
     "/categories/:path*",
   ],
