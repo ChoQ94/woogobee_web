@@ -39,5 +39,13 @@ export function proxy(request: NextRequest) {
 export const config = {
   // 보호 경로만 잡는다. `/api/auth`(로그인 흐름 자체), `_next/static`, `_next/image`,
   // `public/` 정적 파일은 이 패턴에 걸리지 않으므로 별도 제외가 필요 없다.
-  matcher: ["/dashboard/:path*"],
+  //
+  // 경로를 새로 만들 때마다 여기에 추가해야 한다. 빠뜨려도 보안 구멍은 아니다 —
+  // 각 페이지 첫 줄의 `auth()` 가 실제로 막는다. 다만 비로그인 방문자가
+  // 서버 렌더와 DB 조회까지 갔다가 튕기므로 그만큼 느려진다.
+  matcher: [
+    "/dashboard/:path*",
+    "/expenses/:path*",
+    "/categories/:path*",
+  ],
 };
