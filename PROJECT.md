@@ -113,35 +113,34 @@ Expense.categoryId → Category  (onDelete: SetNull)
   - `src/lib/prisma.ts` 싱글턴
   - `.env` / `.env.example` 구성, `AUTH_SECRET` 생성
   - `design.md` 작성
-- [x] **2단계 — 구글 로그인** 🟡 코드 완성 · 구글 자격증명 대기
+- [x] **2단계 — 구글 로그인** ✅ 완료
   - `src/auth.ts` (인증 로직 단일 진입점), `src/app/api/auth/[...nextauth]/route.ts`
   - `src/proxy.ts` — 보호 경로 낙관적 차단 (Next 16 이라 `middleware.ts` 아님, 함정 7.7)
   - 랜딩(`/`) 로그인 버튼, `/dashboard` 자리표시자 + 로그아웃
-  - `src/lib/categories.ts` — 가입 시 기본 카테고리 5개 시드 (`events.createUser`)
+  - `src/lib/seed.ts` — 가입 시 기본 카테고리 5개 시드 (`events.createUser`)
   - `tsc --noEmit` / `lint` / `build` 통과, `/dashboard` 비로그인 차단 실제 확인
-  - **남은 것: 구글 자격증명을 받아 로그인 왕복을 실제로 돌려보는 것뿐** (8번)
-- [ ] **3단계 — 지출 CRUD** ← 다음
-- [ ] **4단계 — 대시보드**
+  - 실제 구글 로그인 왕복 성공, 시드까지 DB 에서 확인
+  - 개발 서버는 **3003 포트** (`npm run dev`). 3000 은 다른 작업이 점유 중이었다
+- [x] **3단계 — 지출 CRUD** ✅ 완료
+  - `src/lib/expenses.ts` — 데이터 접근 전부 여기. 함수마다 `auth()` + 모든 쿼리에 `userId`
+  - `src/lib/categories.ts` — 카테고리 CRUD (시드는 `seed.ts` 로 분리)
+  - `src/lib/category-colors.ts` — 8색 팔레트의 **리터럴 클래스 맵** (함정 7.9)
+  - `src/lib/format.ts` — 금액·결제주기 표기, `src/lib/ui-classes.ts` — 컴포넌트 클래스
+  - `/expenses` 목록(해지 항목 `?ended=1`), `/expenses/new`, `/expenses/[id]/edit`
+  - `/categories` 관리 — 8색 중에서만 선택, 삭제 시 "지출은 남는다" 경고
+  - `proxy.ts` matcher 에 `/expenses`·`/categories` 추가
+  - 확인: 카테고리 삭제해도 지출 보존 + 미분류 전환, 해지는 `endedAt` 기록,
+    남의 지출 삭제 시도 차단(0건), 비로그인 307 — 전부 실제 실행으로 검증
+- [ ] **4단계 — 대시보드** ← 다음
 - [ ] **5단계 — 달력**
 
 ## 6. 다음 할 일
 
-### 2단계 확인 (자격증명 받은 직후)
+### 2단계 확인 결과 (완료)
 
-`npm run dev` 로 띄우고 아래를 순서대로 확인한다.
-
-1. `/` 에서 "Google 로 계속하기" → 로그인 → `/dashboard` 로 이동, 이름·이메일 표시
-2. 로그아웃 → `/` 로 복귀
-3. 비로그인 상태로 `/dashboard` 직접 접근 → `/` 로 차단 (이건 이미 확인됨)
-4. `npx prisma studio` 에서 `User` 1건, `Session` 1건, **`Category` 5건** 확인
-5. 재로그인해도 카테고리가 10건으로 늘어나지 않을 것 (`events.createUser` 는 가입 때만)
-
-### 3단계 — 지출 CRUD
-
-- `src/lib/expenses.ts` 에 데이터 접근 코드를 **전부 모은다** (함정 6.1 참고)
-- 추가·수정·삭제 Server Action
-- 목록 화면
-- 카테고리 관리 (추가·수정·삭제, 8색 팔레트에서 색 선택)
+첫 로그인 직후 DB 를 직접 조회해 확인했다 — `User` 1건, `Account` 1건(google),
+`Session` 1건(만료 30일), `Category` 5건(주거·보험·구독·통신·기타, sortOrder 0~4).
+`Expense` 는 아직 0건이다.
 
 ### 4단계 — 대시보드
 
@@ -205,7 +204,17 @@ Supabase RLS 를 안 쓰기로 했으므로 **이 확인이 유일한 방어선�
 ### 7.4 금액 표시에는 항상 `tabular-nums`
 
 숫자 폭이 제각각이라 금액 목록의 자릿수가 어긋나 보인다.
-`design.md` 4번 항목 참고. 축약 표기(`124만원`)도 쓰지 않는다.
+`design.md` "금액 표기" 참고. 축약 표기(`124만원`)도 쓰지 않는다.
+
+**타이포 토큰만으로는 적용되지 않는다.** Tailwind v4 는 `--text-*` 에
+`--line-height` · `--letter-spacing` · `--font-weight` 세 개만 짝으로 읽고
+`font-variant-numeric` 은 읽지 않는다. 그래서 두 클래스를 병기해야 한다:
+
+```tsx
+<span className="text-amount tabular-nums">1,240,000원</span>
+```
+
+빠뜨려도 오류가 나지 않는다. 자릿수가 어긋난 화면이 그대로 나갈 뿐이다.
 
 ### 7.5 Tailwind v4 는 설정 파일이 없다
 
@@ -235,25 +244,32 @@ Vercel 이 아닌 곳에서 돌리면 `UntrustedHost` 로 로그인이 전부 �
 그때 `.env` 에 `AUTH_URL="https://실제도메인"` 을 넣으면 된다.
 로컬 개발에는 필요 없다.
 
+### 7.9 Tailwind 클래스명을 문자열로 조립하지 마라
+
+카테고리 색은 DB 에 hex 가 아니라 팔레트 토큰명(`"blue"`)으로 저장된다.
+그걸 클래스명으로 조립하고 싶어지는데, **동작하지 않는다.**
+
+```tsx
+// ❌ 아무 색도 나오지 않는다. 오류도 경고도 없다
+<span className={`bg-category-${category.color}-bg`}>
+
+// ✅ 리터럴 맵을 통해서만
+<span className={CATEGORY_BADGE_CLASS[toCategoryColor(category.color)]}>
+```
+
+Tailwind 는 소스를 **정적으로 스캔**해서 실제로 등장한 클래스명만 CSS 로 만든다.
+템플릿 리터럴 안의 조각은 그런 클래스가 존재한 적이 없으므로 아무것도 생성되지 않는다.
+`src/lib/category-colors.ts` 가 8색 전부의 클래스 문자열을 리터럴로 들고 있는 이유다.
+
+같은 함정을 `text-body` 에서도 만났다 — `body` 가 색이자 타이포 토큰이라
+이름이 겹치고, `text-*` 는 색 네임스페이스가 이기므로 크기·행간이 조용히 빠진다.
+본문 타이포는 `body` 요소 기준선으로 깔아뒀으니 클래스 없이 상속받으면 된다.
+
 ## 8. 사용자 액션 대기 중
 
-### 🔴 필수 — 구글 OAuth 자격증명 (2단계 마무리 차단 중)
+지금은 없다.
 
-프로젝트를 `woogobee/` 하위로 옮기면서 `.env` 가 상위 폴더에 남아 있었다.
-지금은 `woogobee/.env` 로 옮겨두었다 — **편집할 파일은 프로젝트 루트의 `.env` 다.**
-
-그 안의 아래 두 줄이 비어 있다.
-
-```
-AUTH_GOOGLE_ID=""
-AUTH_GOOGLE_SECRET=""
-```
-
-[Google Cloud Console](https://console.cloud.google.com) → APIs & Services →
-Credentials → OAuth 2.0 Client ID(웹 애플리케이션)에서 발급.
-
-**리디렉션 URI 에 `http://localhost:3000/api/auth/callback/google` 을 반드시 등록**할 것.
-빠뜨리면 로그인 시 `redirect_uri_mismatch` 에러가 난다.
+### ℹ️ 참고 — `DATABASE_URL` 의 `verify-full`
 
 쿼리스트링(`?sslmode=verify-full&channel_binding=require`)은 그대로 둔다.
 `verify-full` 은 서버 인증서까지 검증하는 설정으로, Neon 이 기본 제공하는
@@ -267,5 +283,8 @@ Credentials → OAuth 2.0 Client ID(웹 애플리케이션)에서 발급.
 | `prisma/schema.prisma` | 데이터 모델                                   |
 | `prisma.config.ts`     | Prisma 7 설정 (DB 주소)                       |
 | `src/lib/prisma.ts`    | Prisma 클라이언트 싱글턴                      |
+| `src/lib/expenses.ts`  | 지출 데이터 접근. **소유권 검사가 여기 모여 있다** |
+| `src/lib/seed.ts`      | 가입 시 기본 카테고리 시드 (세션 없이 불린다) |
+| `src/lib/category-colors.ts` | 8색 팔레트 → Tailwind 클래스 리터럴 맵  |
 | `.env.example`         | 필요한 환경변수 목록                          |
 | `AGENTS.md`            | Next.js 가 자동 생성하는 규칙. 건드리지 말 것 |
